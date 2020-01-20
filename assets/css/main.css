@@ -354,12 +354,12 @@ pre {
 
 
 td {
-  /* vertical-align: top; */
+  vertical-align: top;
   /* padding-right: 20px; */
 }
 
 th {
-  /* vertical-align: top; */
+  vertical-align: top;
   /* padding-right: 20px; */
   white-space: nowrap;
   text-align: left;

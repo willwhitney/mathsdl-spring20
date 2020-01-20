@@ -12,7 +12,7 @@ Topics course Mathematics of Deep Learning, NYU, Spring 2020. CSCI-GA 3033.
 
 * (**optional**) Parallel Curriculum sessions: Fridays 11am-12:15pm in CIWW 102.
 
-* Piazza: [sign up here](piazza.com/nyu/spring2020/csciga3033)
+* Piazza: [sign up here](http://piazza.com/nyu/spring2020/csciga3033)
 
 
 ## Instructors
@@ -65,25 +65,43 @@ The course will be graded in three components: paper abstract, final paper, and 
 
 ## Lectures
 
-
-
-| Week        | Lecture Date | Section Date          | Topic       |  Parallel topic                     |
+| Week        | Lecture Date |  Topic       |  Section Date       | Parallel topic                     |
 | ---------------|----------------| ------------|---------------------------|
-| 1 | 1/30 | **NONE** | **Parallel takeover:** Introduction to Reinforcement Learning |  None  |
-| 2 | 2/6  | 2/7  | TBA  |  Bandits and the Upper confidence bound algorithm  |
-| 4 | 2/20  | 2/21  | TBA |  Deep value-based RL and DQN  |
-| 5 | 2/27  | 2/28  | TBA |  UCB in tabular RL  |
-| 6 | 3/5  | 3/6  | TBA |  Intrinsic motivation and Information Gain  |
-| 7 | 3/12  | 3/11  | TBA |  Unifying Count-Based Exploration and Intrinsic Motivation  |
-| 8 | 3/19  | 3/20  | **Spring Break**  |  **Spring Break**  |
-| 9 | 3/26  | 3/27  | TBA |  Control and linear trajectory optimization  |
-| 10 | 4/2  | 4/3  | TBA |  Iterative linear quadratic regulation  |
-| 11 | 4/9  | 4/10  | TBA |  Imitation learning  |
-| 12 | 4/16  | 4/17  | TBA |  Constrained optimization and ADMM  |
-| 13 | 4/23  | **NONE**  | TBA |  TBA  |
-| 14 | 4/30  | **NONE**  | TBA |  TBA  |
-| 15 | 5/7  | 5/8  | TBA |  Guided Policy Search  |
+| 1 | 1/30 | **Parallel takeover:** Introduction to Reinforcement Learning | 1/31 | **No session**  |
+| 2 | 2/6  | TBA  | 2/7  |  Bandits and the Upper confidence bound algorithm  |
+| 3 | 2/13  | TBA  | 2/14  |  Deep value-based RL and DQN  |
+| 4 | 2/20  | TBA | 2/21  |  UCB in tabular RL  |
+| 5 | 2/27  | TBA | 2/28  |  Intrinsic motivation and Information Gain  |
+| 6 | 3/5  | TBA | 3/6  |  Unifying Count-Based Exploration and Intrinsic Motivation  |
+| 7 | 3/12  | TBA | 3/11  |  Control and linear trajectory optimization  |
+| 8 | 3/19  | **Spring  Break**  | 3/20  |  **Spring Break**  |
+| 9 | 3/26  | TBA | 3/27  |  Iterative linear quadratic regulation  |
+| 10 | 4/2  | TBA | 4/3  |  Imitation learning  |
+| 11 | 4/9  | TBA | 4/10  |  Constrained optimization and ADMM  |
+| 12 | 4/16  | TBA | 4/17  |  Guided Policy Search  |
+| 13 | 4/23  | TBA | 4/24  |  **No session**  |
+| 14 | 4/30  | TBA | 5/1  |  **No session**  |
+| 15 | 5/7  | TBA | 5/8  |  **No session**  |
 
+
+## Paper topics
+
+The following are some recommended topics for the final paper. If your group doesn't want to do one of these topics, you can propose something else to us instead.
+
+- Neural Tangent Kernel
+- Depth separation
+- Advanced topics on control (path integral control, Russ Tedrake stuff)
+- Imitation learning (behavior cloning, DAGGER, GAIL)
+- maximum-entropy RL / RL as inference (maybe not, there are good reviews)
+- competitive optimization (games, VI, applications like GANs, mirror-prox, extra-gradient)
+- double descent
+- contextual bandits
+- PAC-Bayes
+- Bayesian NNs (Bayes by backprop, Yarin stuff, etc)
+- Graph neural networks (approximation, optimization)
+- Deep learning for PDEs
+- Offline / batch RL
+- Self-supervised RL
 
 
 

@@ -1,0 +1,17 @@
+# Site Settings
+
+paginate:            5
+disqus:              #"your-disqus"
+
+# Build settings
+markdown:            kramdown
+permalink:           none
+gems:
+    - jekyll-paginate
+    - jekyll-feed
+
+kramdown:
+   input: GFM
+   hard_wrap: false
+   encoding: utf-8
+   footnote_backlink:

@@ -1,0 +1,26 @@
+title:  Mathematics of Deep Learning
+author:
+  name: 'Will Whitney'
+  twitter:  wfwhitney
+
+tagline: Spring 2020
+
+# Change to true for Disqus comments
+disqus:
+  comments: false
+  disqus_shortname: 'learning-4'
+
+# google-ID: 'UA-104146434-1'
+
+menu:
+# - {name: 'About', url: 'about.html'}
+# - {name: 'Writing', url: 'writing.html'}
+# - {name: 'Contact', url: 'contact.html'}
+
+social:
+- {icon: 'github', link: 'https://github.com/willwhitney/mathsdl-spring20'}
+# - {icon: 'twitter', link: 'https://twitter.com/wfwhitney'}
+- {icon: 'envelope', link: 'mailto:wfwhitney@gmail.com'}
+# - {icon: 'rss', link: '/feed.xml'}
+
+# Available social icons are powered by Font Awesome, so you can use any icon that they offer

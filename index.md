@@ -100,7 +100,7 @@ The following are some recommended topics for the final paper. If your group doe
 - Graph neural networks (approximation, optimization)
 - Deep learning for PDEs
 - Offline / batch RL
-- Self-supervised RL
+- Self-supervised learning
 
 
 

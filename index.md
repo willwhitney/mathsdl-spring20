@@ -67,7 +67,7 @@ The course will be graded in three components: paper abstract, final paper, and 
 
 
 
-| Week        | Lecture Date | <span>Section Date</span>          | Topic       |  Parallel topic                     |
+| Week        | Lecture Date | Section Date          | Topic       |  Parallel topic                     |
 | ---------------|----------------| ------------|---------------------------|
 | 1 | 1/30 | **NONE** | **Parallel takeover:** Introduction to Reinforcement Learning |  None  |
 | 2 | 2/6  | 2/7  | TBA  |  Bandits and the Upper confidence bound algorithm  |

@@ -354,13 +354,45 @@ pre {
 
 
 td {
-  vertical-align: top;
-  padding-right: 20px;
+  /* vertical-align: top; */
+  /* padding-right: 20px; */
 }
 
 th {
-  vertical-align: top;
-  padding-right: 20px;
+  /* vertical-align: top; */
+  /* padding-right: 20px; */
   white-space: nowrap;
   text-align: left;
 }
+
+
+table {
+    /* display: block; */
+    width: 100%;
+    overflow:auto;
+    border-collapse: collapse;
+}
+
+table th {
+    font-weight:600;
+    border-bottom: 1px solid #555;
+}
+
+table td, table th {
+    padding: 6px 13px;
+    /* border:1px solid #dfe2e5 */
+}
+
+table tr {
+    background-color: #fff;
+    /* border-top:1px solid #c6cbd1 */
+}
+
+table tr:nth-child(2n) {
+    background-color:#f6f8fa;
+}
+
+table tr:first-child{ 
+  /* border-bottom: 1px solid #555; */
+}
+

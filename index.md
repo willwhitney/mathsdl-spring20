@@ -90,12 +90,11 @@ The following are some recommended topics for the final paper. If your group doe
 
 - Neural Tangent Kernel
 - Depth separation
-- Advanced topics on control (path integral control, Russ Tedrake stuff)
+- Advanced topics on control (e.g. path integral control)
 - Imitation learning (behavior cloning, DAGGER, GAIL)
-- maximum-entropy RL / RL as inference (maybe not, there are good reviews)
-- competitive optimization (games, VI, applications like GANs, mirror-prox, extra-gradient)
-- double descent
-- contextual bandits
+- Competitive optimization (games, VI, applications like GANs, mirror-prox, extra-gradient)
+- Double descent
+- Contextual bandits
 - PAC-Bayes
 - Bayesian NNs (Bayes by backprop, Yarin stuff, etc)
 - Graph neural networks (approximation, optimization)

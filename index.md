@@ -70,9 +70,9 @@ The course will be graded in three components: paper abstract, final paper, and 
 | 1 | 1/30 | **Parallel takeover:** Introduction to Reinforcement Learning | 1/31 | **No session**  |
 | 2 | 2/6  | TBA  | 2/7  |  Bandits and the Upper confidence bound algorithm  |
 | 3 | 2/13  | TBA  | 2/14  |  Deep value-based RL and DQN  |
-| 4 | 2/20  | TBA | 2/21  |  UCB in tabular RL  |
+| 4 | 2/20  | TBA <br /> **Topic due.**  | 2/21  |  UCB in tabular RL  |
 | 5 | 2/27  | TBA | 2/28  |  Intrinsic motivation and Information Gain  |
-| 6 | 3/5  | TBA | 3/6  |  Unifying Count-Based Exploration and Intrinsic Motivation  |
+| 6 | 3/5   | TBA <br /> **Abstract due.** | 3/6  |  Unifying Count-Based Exploration and Intrinsic Motivation  |
 | 7 | 3/12  | TBA | 3/11  |  Control and linear trajectory optimization  |
 | 8 | 3/19  | **Spring  Break**  | 3/20  |  **Spring Break**  |
 | 9 | 3/26  | TBA | 3/27  |  Iterative linear quadratic regulation  |
@@ -80,7 +80,7 @@ The course will be graded in three components: paper abstract, final paper, and 
 | 11 | 4/9  | TBA | 4/10  |  Constrained optimization and ADMM  |
 | 12 | 4/16  | TBA | 4/17  |  Guided Policy Search  |
 | 13 | 4/23  | TBA | 4/24  |  **No session**  |
-| 14 | 4/30  | TBA | 5/1  |  **No session**  |
+| 14 | 4/30  | TBA <br /> **Paper due.**  | 5/1  |  **No session**  |
 | 15 | 5/7  | TBA | 5/8  |  **No session**  |
 
 

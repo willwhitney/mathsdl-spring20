@@ -84,6 +84,17 @@ The course will be graded in three components: paper abstract, final paper, and 
 | 15 | 5/7  | Lecture 13: Depth Separation. Open Problems  | 5/8  |  **No session**  |
 
 
+## Main References
+
+- The Scattering Transform 
+- Geometric Deep Learning: going beyond Euclidean Data. 
+- [Understanding Machine Learning: from Theory to Algorithms](https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf) 
+- Breaking the Curse of Dimensionality with Convex Neural Networks, Bach.
+- Convex Optimization: Algorithms and Complexity, Bubeck.
+- Lazy Training 
+- Neural Tangent Kernel
+- Mean-field papers
+
 ## Paper topics
 
 The following are some recommended topics for the final paper. If your group doesn't want to do one of these topics, you can propose something else to us instead.

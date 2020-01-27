@@ -91,18 +91,13 @@ The following are some recommended topics for the final paper. If your group doe
 - Depth separation
 - Double descent
 - PAC-Bayes
-- "Competitive optimization
-- (games, VI, applications like GANs, mirror-prox, extra-gradient)"
+- Competitive optimization (games, VI, applications like GANs, mirror-prox, extra-gradient)
 - Deep learning for PDEs
-- "Graph neural networks 
-- (approximation, optimization)"
-- "Bayesian NNs 
-- (Bayes by backprop, Yarin Gal's work, etc)"
+- Graph neural networks (approximation, optimization)
+- Bayesian NNs (Bayes by backprop, Yarin Gal's work, etc)
 - Self-supervised learning
-- "Imitation learning 
-- (behavior cloning, DAGGER, GAIL)"
+- Imitation learning (behavior cloning, DAGGER, GAIL)
 - Offline / batch RL (offline policy evaluation, connections to causal inference, etc)
-- "Advanced topics on control 
-- (path integral control, trajectory optimization, controller verification)"
+- Advanced topics on control (path integral control, trajectory optimization, controller verification)
 
 

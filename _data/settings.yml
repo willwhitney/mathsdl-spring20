@@ -13,9 +13,8 @@ disqus:
 # google-ID: 'UA-104146434-1'
 
 menu:
-# - {name: 'About', url: 'about.html'}
-# - {name: 'Writing', url: 'writing.html'}
-# - {name: 'Contact', url: 'contact.html'}
+  - {name: 'Main site', url: 'index.html'}
+  - {name: 'Parallel curriculum', url: 'parallel.html'}
 
 social:
 - {icon: 'github', link: 'https://github.com/willwhitney/mathsdl-spring20'}

@@ -1,12 +1,12 @@
 <div class="menu">
   <nav class="menu-content">
     {% for item in site.data.settings.menu %}
-      <a href="/menu/{{ item.url }}">{{ item.name }}</a>
+      <a href="/{{ item.url }}">{{ item.name }}</a>
     {% endfor %}
   </nav>
-  <nav class="social-icons">
+  <!-- <nav class="social-icons">
     {% for item in site.data.settings.social %}
       <a href="{{ item.link }}" target="_blank"><i class="fa fa-{{ item.icon }}" aria-hidden="true"></i></a>
     {% endfor %}
-  </nav>
+  </nav> -->
 </div>

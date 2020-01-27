@@ -12,7 +12,8 @@ Topics course Mathematics of Deep Learning, NYU, Spring 2020. CSCI-GA 3033.
 
 * (**optional**) Parallel Curriculum sessions: Fridays 11am-12:15pm in CIWW 102.
 
-* Piazza: [sign up here](http://piazza.com/nyu/spring2020/csciga3033)
+* Campuswire (forum): [sign up here](https://campuswire.com/p/G3EE2F76E) and use code 5548
+
 
 
 ## Instructors
@@ -32,25 +33,6 @@ Besides the lectures, we will also run an optional parallel curriculum during th
 
 
 
-<!-- ### Detailed Syllabus 
-
-*  Introduction: the Curse of Dimensionality
-
-* Part I: Geometry of Data
-  * Euclidean Geometry: transportation metrics, CNNs , scattering. 
-  * Non-Euclidean Geometry: Hausdorff-Gromov distances, Graph Neural Networks. 
-  * Unsupervised Learning under Geometric Priors (Implicit vs explicit models, microcanonical, transportation metrics).
-  * Applications and Open Problems: adversarial examples, graph inference, inverse problems.
-
-* Part II: Geometry of Optimization and Generalization
-  * Stochastic Optimization (Robbins & Munro, Convergence of SGD) 
-  * Stochastic Differential Equations (Fokker-Plank, Gradient Flow, Langevin Dynamics, links with SGD; open problems) 
-  * Information Geometry and Optimal Transport (Amari, Fisher-Rao metric, Wasserstein) 
-  * Reproducing Kernel Hilbert Spaces 
-  * Landscape of Deep Learning Optimization (Tensor/Matrix factorization, Deep Nets; open problems). 
-  * Generalization in Deep Learning.  -->
-
-
 ## Prerequisites
 
 Background on high-dimensional probability, statistics, and/or harmonic analysis. Familiarity with general Machine Learning topics and basic notions of optimization.
@@ -58,9 +40,15 @@ Background on high-dimensional probability, statistics, and/or harmonic analysis
 
 ## Assignments and Grading
 
-The course will involve weekly required readings before class and a final paper, which will be an in-depth survey of a topic related to the syllabus. A detailed abstract of the final paper will be due in the middle of the term.
+The course will involve weekly required readings before class and a final paper, which will be an in-depth survey of a topic related to the syllabus. A detailed abstract of the final paper will be due in the middle of the term. The abstract and final paper should be submitted on [NYU Classes](https://newclasses.nyu.edu/portal/site/088123d4-f476-4f00-9382-f27d02b1502c/).
 
 The course will be graded in three components: paper abstract, final paper, and participation.
+
+
+### Final paper
+
+The paper will be written in groups which should be roughly evenly divided around 12 topics (groups of 3-4). You can sign up with your group on [this spreadsheet](https://docs.google.com/spreadsheets/d/15XlvR-eXNTncQh9hyOWOduEw_45mOOsem-zH31wbkdU/edit?usp=sharing_eil&invite=CPzMrKcN&ts=5e2f3a27). There should be no more than one paper per topic.
+
 
 
 ## Lectures
@@ -70,7 +58,7 @@ The course will be graded in three components: paper abstract, final paper, and 
 | 1 | 1/30 | **Parallel takeover:** Introduction to Reinforcement Learning | 1/31 | **No session**  |
 | 2 | 2/6  | Lecture 1: The Curse of Dimensionality  | 2/7  |  Bandits and the Upper confidence bound algorithm  |
 | 3 | 2/13  | Lecture 2: Symmetries and Geometric Stability  | 2/14  |  Deep value-based RL and DQN  |
-| 4 | 2/20  | Lecture 3: The Scattering Transform <br /> **Topic due.**  | 2/21  |  UCB in tabular RL  |
+| 4 | 2/20  | Lecture 3: The Scattering Transform <br /> [**Topic due.**](https://docs.google.com/spreadsheets/d/15XlvR-eXNTncQh9hyOWOduEw_45mOOsem-zH31wbkdU/edit?usp=sharing_eil&invite=CPzMrKcN&ts=5e2f3a27) | 2/21  |  UCB in tabular RL  |
 | 5 | 2/27  | Lecture 4: From Euclidean to Non-Euclidean Stability | 2/28  |  Intrinsic motivation and Information Gain  |
 | 6 | 3/5   | Lecture 5: Convex Optimization <br /> **Abstract due.** | 3/6  |  Unifying Count-Based Exploration and Intrinsic Motivation  |
 | 7 | 3/12  | Lecture 6: Discrete vs Continuous Time, Mirror Descent. | 3/11  |  Control and linear trajectory optimization  |
@@ -101,19 +89,20 @@ The following are some recommended topics for the final paper. If your group doe
 
 - Neural Tangent Kernel
 - Depth separation
-- Advanced topics on control (e.g. path integral control)
-- Imitation learning (behavior cloning, DAGGER, GAIL)
-- Competitive optimization (games, VI, applications like GANs, mirror-prox, extra-gradient)
 - Double descent
-- Contextual bandits
 - PAC-Bayes
-- Bayesian NNs (Bayes by backprop, Yarin stuff, etc)
-- Graph neural networks (approximation, optimization)
+- "Competitive optimization
+- (games, VI, applications like GANs, mirror-prox, extra-gradient)"
 - Deep learning for PDEs
-- Offline / batch RL
+- "Graph neural networks 
+- (approximation, optimization)"
+- "Bayesian NNs 
+- (Bayes by backprop, Yarin Gal's work, etc)"
 - Self-supervised learning
-
-
-
+- "Imitation learning 
+- (behavior cloning, DAGGER, GAIL)"
+- Offline / batch RL (offline policy evaluation, connections to causal inference, etc)
+- "Advanced topics on control 
+- (path integral control, trajectory optimization, controller verification)"
 
 

@@ -60,7 +60,7 @@ The paper will be written in groups which should be roughly evenly divided aroun
 | 3 | 2/13  | Lecture 2: Symmetries and Geometric Stability  | 2/14  |  Deep value-based RL and DQN  |
 | 4 | 2/20  | Lecture 3: The Scattering Transform <br /> [**Topic due.**](https://docs.google.com/spreadsheets/d/15XlvR-eXNTncQh9hyOWOduEw_45mOOsem-zH31wbkdU/edit?usp=sharing_eil&invite=CPzMrKcN&ts=5e2f3a27) | 2/21  |  UCB in tabular RL  |
 | 5 | 2/27  | Lecture 4: From Euclidean to Non-Euclidean Stability | 2/28  |  Intrinsic motivation and Information Gain  |
-| 6 | 3/5   | Lecture 5: Convex Optimization <br /> **Abstract due.** | 3/6  |  Unifying Count-Based Exploration and Intrinsic Motivation  |
+| 6 | 3/5   | Lecture 5: Convex Optimization <br /> [**Abstract due.**](https://newclasses.nyu.edu/portal/site/088123d4-f476-4f00-9382-f27d02b1502c/) | 3/6  |  Unifying Count-Based Exploration and Intrinsic Motivation  |
 | 7 | 3/12  | Lecture 6: Discrete vs Continuous Time, Mirror Descent. | 3/11  |  Control and linear trajectory optimization  |
 | 8 | 3/19  | **Spring  Break**  | 3/20  |  **Spring Break**  |
 | 9 | 3/26  | Lecture 7: Stochastic Optimization | 3/27  |  Iterative linear quadratic regulation  |
@@ -68,7 +68,7 @@ The paper will be written in groups which should be roughly evenly divided aroun
 | 11 | 4/9  | Lecture 9: Approximation in high-dimensional spaces.  | 4/10  |  Constrained optimization and ADMM  |
 | 12 | 4/16  | Lecture 10: Reproducing Kernel Hilbert Spaces. Measure Spaces.   | 4/17  |  Guided Policy Search  |
 | 13 | 4/23  | Lecture 11: Overparametrised Neural Networks. Lazy and Active regimes | 4/24  |  **No session**  |
-| 14 | 4/30  | Lecture 12: Mean-Field Limit of overparamerised neural networks <br /> **Paper due.**  | 5/1  |  **No session**  |
+| 14 | 4/30  | Lecture 12: Mean-Field Limit of overparamerised neural networks <br /> [**Paper due.**](https://newclasses.nyu.edu/portal/site/088123d4-f476-4f00-9382-f27d02b1502c/)  | 5/1  |  **No session**  |
 | 15 | 5/7  | Lecture 13: Depth Separation. Open Problems  | 5/8  |  **No session**  |
 
 

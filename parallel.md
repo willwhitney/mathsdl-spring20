@@ -12,7 +12,9 @@ Fridays 11am-12:15pm in CIWW 102.
 Intro to Reinforcement Learning (covered in the intro lecture on 1/30)
 ======================================================================
 
-#### [Topics](http://mathsdl-spring20.willwhitney.com/assets/documents/Lecture1_Intro_to_RL.pdf)
+[Lecture notes](http://mathsdl-spring20.willwhitney.com/assets/documents/Lecture1_Intro_to_RL.pdf)
+
+#### Topics
 
 -   Sequential decision making under uncertainty
 

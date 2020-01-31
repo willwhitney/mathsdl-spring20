@@ -55,7 +55,7 @@ The paper will be written in groups which should be roughly evenly divided aroun
 
 | Week        | Lecture Date |  Topic       |  Section Date       | Parallel topic                     |
 | ---------------|----------------| ------------|---------------------------|---------------------------|
-| 1 | 1/30 | **Parallel takeover:** Introduction to Reinforcement Learning | 1/31 | **No session**  |
+| 1 | 1/30 | **Parallel takeover:** Introduction to Reinforcement Learning ([Lecture notes](http://mathsdl-spring20.willwhitney.com/assets/documents/Lecture1_Intro_to_RL.pdf))| 1/31 | **No session**  |
 | 2 | 2/6  | Lecture 1: The Curse of Dimensionality  | 2/7  |  Bandits and the Upper confidence bound algorithm  |
 | 3 | 2/13  | Lecture 2: Symmetries and Geometric Stability  | 2/14  |  Deep value-based RL and DQN  |
 | 4 | 2/20  | Lecture 3: The Scattering Transform <br /> [**Topic due.**](https://docs.google.com/spreadsheets/d/15XlvR-eXNTncQh9hyOWOduEw_45mOOsem-zH31wbkdU/edit?usp=sharing_eil&invite=CPzMrKcN&ts=5e2f3a27) | 2/21  |  UCB in tabular RL  |

@@ -4,7 +4,7 @@ title: Home
 ---
 
 <!-- # MathsDL-spring18 -->
-Topics course Mathematics of Deep Learning, NYU, Spring 2020. CSCI-GA 3033. 
+Topics course Mathematics of Deep Learning, NYU, Spring 2020. CSCI-GA 3033.
 
 ## Logistics
 
@@ -59,7 +59,7 @@ The paper will be written in groups which should be roughly evenly divided aroun
 | 2 | 2/6  | Lecture 1: The Curse of Dimensionality  | 2/7  |  Bandits and the Upper confidence bound algorithm  |
 | 3 | 2/13  | Lecture 2: Symmetries and Geometric Stability  | 2/14  |  Deep value-based RL and DQN  |
 | 4 | 2/20  | Lecture 3: The Scattering Transform <br /> [**Topic due.**](https://docs.google.com/spreadsheets/d/15XlvR-eXNTncQh9hyOWOduEw_45mOOsem-zH31wbkdU/edit?usp=sharing_eil&invite=CPzMrKcN&ts=5e2f3a27) | 2/21  |  UCB in tabular RL  |
-| 5 | 2/27  | Lecture 4: From Euclidean to Non-Euclidean Stability | 2/28  |  Intrinsic motivation and Information Gain  |
+| 5 | 2/27  | Lecture 4: From Euclidean to Non-Euclidean Stability | 2/28  |  **Room change: 60FA room 110** <br /> Intrinsic motivation and Information Gain  |
 | 6 | 3/5   | Lecture 5: Convex Optimization <br /> [**Abstract due.**](https://newclasses.nyu.edu/portal/site/088123d4-f476-4f00-9382-f27d02b1502c/) | 3/6  |  Unifying Count-Based Exploration and Intrinsic Motivation  |
 | 7 | 3/12  | Lecture 6: Discrete vs Continuous Time, Mirror Descent. | 3/11  |  Control and linear trajectory optimization  |
 | 8 | 3/19  | **Spring  Break**  | 3/20  |  **Spring Break**  |
@@ -74,12 +74,12 @@ The paper will be written in groups which should be roughly evenly divided aroun
 
 ## Main References
 
-- The Scattering Transform 
-- Geometric Deep Learning: going beyond Euclidean Data. 
-- [Understanding Machine Learning: from Theory to Algorithms](https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf) 
+- The Scattering Transform
+- Geometric Deep Learning: going beyond Euclidean Data.
+- [Understanding Machine Learning: from Theory to Algorithms](https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf)
 - Breaking the Curse of Dimensionality with Convex Neural Networks, Bach.
 - Convex Optimization: Algorithms and Complexity, Bubeck.
-- Lazy Training 
+- Lazy Training
 - Neural Tangent Kernel
 - Mean-field papers
 

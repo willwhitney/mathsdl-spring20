@@ -99,5 +99,7 @@ The following are some recommended topics for the final paper. If your group doe
 - Imitation learning (behavior cloning, DAGGER, GAIL)
 - Offline / batch RL (offline policy evaluation, connections to causal inference, etc)
 - Advanced topics on control (path integral control, trajectory optimization, controller verification)
+- Loss landscapes of neural networks
+- Mean-field analysis of neural networks
 
 

@@ -131,13 +131,17 @@ blockquote p {
   list-style: none;
 }
 
+.post-title{
+  margin-bottom: 0px;
+}
+
 .post-date {
   display: block;
-  margin-top:3px;
+  margin-top: 0px;
   margin-bottom: 1rem;
   color: #9a9a9a;
   font-family: 'Quattrocento Sans', sans-serif;
-  font-size:0.8rem;
+  font-size: 1.2rem;
 }
 
 @media (max-width: 30rem) {
@@ -396,7 +400,7 @@ table tr:nth-child(2n) {
     background-color:#f6f8fa;
 }
 
-table tr:first-child{ 
+table tr:first-child{
   /* border-bottom: 1px solid #555; */
 }
 

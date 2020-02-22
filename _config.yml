@@ -15,3 +15,5 @@ kramdown:
    hard_wrap: false
    encoding: utf-8
    footnote_backlink:
+
+excerpt_separator: "<!--more-->"

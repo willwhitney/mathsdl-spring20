@@ -1,0 +1,90 @@
+.sliderAxis text{
+  font-size: 16px;
+  fill: #b8b1a9;
+  font-weight: 400;
+}
+.sliderAxis line{
+  fill: none;
+  stroke: #b8b1a9;
+  stroke-width: 1px;
+}
+.sliderAxis .domain{
+  fill: none;
+  stroke: none;
+}
+
+.track,
+.track-inset,
+.track-overlay {
+  /*stroke-linecap: round;*/
+}
+
+.track {
+  stroke: #b8b1a9;
+  stroke-width: 4px;
+  cursor: pointer;
+}
+
+/*.track-inset {
+  stroke: #ddd;
+  stroke-width: 50px;
+}*/
+
+.track-overlay {
+  stroke: #A5526A;
+  stroke-width: 4px;
+}
+
+.handle {
+  fill: #ffffff;
+  stroke: #A5526A;
+  stroke-width: 4px;
+  cursor: pointer;
+}
+
+.label {
+  fill: #b8b1a9;
+  stroke: none;
+}
+.labelText {
+  fill: #ffffff;
+  stroke: none;
+  font-size: 16px;
+  font-weight: 400;
+  text-anchor: middle;
+}
+
+.intro {
+  margin-left: 20px;
+  margin-top: 10px;
+  font-family: MetricWeb, sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 200;
+}
+
+.holder {
+  margin-left: 20px;
+  font-family: MetricWeb, sans-serif;
+}
+
+.subhead {
+  margin-top: 10px;
+  font-family: MetricWeb, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.infoText {
+  font-family: MetricWeb, sans-serif;
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 200;
+}
+.code {
+  margin-top: 4px;
+  font-family: "Courier";
+  font-size: 16px;
+  font-weight: 400;
+}

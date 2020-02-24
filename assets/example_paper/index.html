@@ -1,0 +1,647 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="css/d3.slider.css">
+<link rel="stylesheet" href="css/style.css">
+
+<script src="https://distill.pub/template.v1.js"></script>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://unpkg.com/d3-3d/build/d3-3d.min.js"></script>
+
+<script src="js/d3.slider.js"></script>
+
+<script
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"
+   async>
+</script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\[','\\]']],
+    processEscapes: true
+  },
+  TeX: {
+    Macros: {
+      bm: ["{\\boldsymbol #1}",1],
+    }
+  }
+  });
+</script>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script type="text/front-matter">
+  title: ""
+  description: "A survey."
+</script>
+
+<title>Models of High-Dimensional Optimization Landscapes</title>
+
+<dt-article>
+  <h1>Models of High-Dimensional Optimization Landscapes</h1>
+  <h2>
+    In machine learning and especially neural networks, understanding the difficulty (or lack thereof) of optimization in very high-dimensional space has recently become a topic of great interest. This is a survey of some models of the <i>landscapes</i> of such problems, ways to measure the complexity of those landscapes to help understand the performance of optimization algorithms, and what we know about how well those models approximate the problems of deep learning.
+  </h2>
+
+  <hr>
+
+  <h2>1. Introduction</h2>
+
+  <p>
+    <b>Whence landscapes?</b>
+    The idea of viewing an optimization problem as being set on a landscape originates in evolutionary biology.
+    As early as 1932, Sewall Wright <dt-cite key="wright1932roles"></dt-cite> suggested that the evolutionary fitnesses of variously mutated genomes could be seen as lying on a landscape over the collection of all possible genomes, and that a population of a species could be seen as moving around on this landscape, seeking out its maxima.
+  </p>
+
+  <p>
+    The "landscape concept" eventually spread to other fields where there was interest in the "navigability" of a complex objective or potential function.
+    In particular, in physics the same question corresponded to which favorable configurations of a physical system are easily accessible by thermal fluctuations, in Bayesian statistics to whether true model parameters are easily accessible by a Monte Carlo algorithm sampling the posterior distribution, and--what we will take up in this survey--in optimization to whether optima of an objective function are accessible by local algorithms like gradient descent and its many variants.
+    But especially in biology, where one may think of the population as a literal swarm wandering a literal landscape, the fitness landscape idea has been incredibly influential, to the point of becoming entirely standard terminology in the field.
+  </p>
+
+  <p>
+    For guidance on how to study optimization landscapes, we would therefore do well to look to biology--there, many simple mathematical models of "tunably complex" landscapes <dt-cite key="kauffman1989nk,huynen1996smoothness,barnett1998ruggedness"></dt-cite> were developed long before it was possible to measure genetic fitness of entire landscapes, a rather recent development <dt-cite key="poelwijk2007empirical,szendro2013quantitative"></dt-cite>.
+    These models provide parameters for modulating the ruggedness of landscapes, giving an effective means of benchmarking various measurements of complexity and toy models of landscape dynamics.
+    The success of this approach suggests that, even though with the computational resources currently available all manner of sophisticated experiments can be (and are being) performed on realistic, complicated neural networks, it may be nonetheless productive at first to restrict our attention to some toy models of high-dimensional landscapes, which can be understood in great detail at a theoretical level.
+    The purpose of this survey is to describe two categories of such toy models, which are among the better-studied cases of optimization landscape complexity in the neural network literature.
+    These are the following:
+
+    <ol>
+      <li>Mathematical models of random functions, which can exhibit interesting and diverse complexity phenomena, but are often only tenuously related to the landscapes of neural networks, and
+      <li>Highly simplified models of neural networks, either <i>linear</i> or <i>shallow</i> ones, where we can usually only understand in detail situations where their landscapes are <i>not</i> very complex.
+    </ol>
+  </p>
+
+  <p>
+    The most substantial open question in this area, as the reader might anticipate, is to understand the obvious gap between these two families of models: what are the landscape complexity phenomena that realistic, deep neural networks exhibit?
+    As we will return to in the final section, the design of these networks involves a great deal of artful engineering, often based on folkloric wisdom that has been accumulated through practical trial and error in applied settings.
+    It is therefore very likely that these toy models are, in some way or other, unable to capture what is really going on in applied deep neural network optimization.
+    So, we pursue them not in the hope of immediately attacking that very difficult question, but rather in the hope of building up a supply of simple principles about how our optimization algorithms behave under particular circumstances, and developing an arsenal of concepts for thinking about those behaviors clearly and precisely.
+  </p>
+
+  <hr>
+
+  <h2>2. Measuring Complexity: Low-Dimensional Maps of High-Dimensional Places</h2>
+
+  <p>
+    <b>What is complexity?</b>
+    The landscape metaphor we introduced in the previous section is friendly--anybody can imagine a mountain range being rugged or smooth--but to really make use of it, we need to answer some very important and unfortunately nebulous technical questions.
+    To see this, let us make things quite concrete: say we are given a function $f: X \to \mathbb{R}$ for some set $X$ that is high-dimensional and has some geometric structure (think of $X = \mathbb{R}^N$ for $N$ of order $10^6$ or so, or $X = \mathbb{S}^{N - 1}$, the unit sphere of $\mathbb{R}^N$), and asked to evaluate (like high-dimensional land surveyors) its complexity.
+    What should we measure?
+    Where should we evaluate $f$?
+    We certainly cannot evaluate it <i>everywhere</i>, like we did for the low-dimensional function in the previous section--this is the essence of the curse of dimensionality.
+    And, even if we could, we could not draw a picture as we did before.
+  </p>
+
+  <p>
+    These are the questions we take up in this section: first, what information is relevant to landscape complexity; second, how can that information be tractably obtained; and third, how can we read something useful off of our measurements once we have them?
+    We must remember that our final goal is always to talk about dynamics (in our case of local algorithms like gradient or stochastic gradient descent) on our landscapes, and how effectively they are able to reach high quality optima.
+    (For machine learning, there is also the very relevant question of what "quality" means, which usually captures some notion of generalization error and relates to "implicit regularization" types of phenomena, but this raises a whole host of new questions, so, to avoid further testing the reader's patience, here we will suppose that our sole goal is to optimize a given objective function with some simple version of gradient descent.)
+    Thus, our task is a matter of translating <i>statics</i> to <i>dynamics</i>--from some description of the landscape of $f$ in different areas of $X$, we would like to make predictions about how gradient descent will move in that landscape.
+  </p>
+
+  <p>
+    In the following, let's suppose, to fix ideas, that the optimization task we are interested in is minimizing $f$.
+  </p>
+
+  <p>
+    <b>The structure of sub-level sets.</b>
+    The key to most summaries of landscape navigability lies in studying the structure of the <i>sub-level sets</i>, defined by
+    \[ \mathsf{Sub}(u) = \mathsf{Sub}(f, u) = f^{-1}((-\infty, u]) = \{\bm x: f(\bm x) \leq u\}. \]
+    Their meaning is that, if we are running an algorithm and are located at some $\bm x \in X$, then $\mathsf{Sub}(f(\bm x))$ is the set of points of $X$ whose values are at least as good as $\bm x$.
+    For example, for so-called <i>descent methods</i> of optimization, which work by generating a sequence of iterates $\bm x^{(1)}, \bm x^{(2)}, \dots$ where $f(\bm x^{(k)})$ only decreases with $k$, the sequence of iterates after some $\bm x^{(k)}$ is forced to lie within $\mathsf{Sub}(f(\bm x^{(k)}))$.
+    Therefore, one sign of trouble would be if $\mathsf{Sub}(u)$ is disconnected for some values of $u$: then, it would be possible for descent-type methods to get stuck in the "wrong" component of $\mathsf{Sub}(u)$, the one not containing the global optimum, from which it would be hard or impossible to escape (depending on how "faithfully descending" the optimization method is--methods like stochastic gradient descent, for instance, do not guarantee descent, and also stand a chance of escaping into the "right" sub-level set component by a lucky draw of the randomness they use).
+  </p>
+
+  <p>
+    There are also more subtle signs of trouble involving the <i>topology</i> of the sub-level sets.
+    For instance, suppose $X = \mathbb{R}^2$, and $\mathsf{Sub}(u)$ has a hole in it, being shaped like a washer or a flattened ring.
+    Then, in principle, an optimization method can get from one end of $\mathsf{Sub}(u)$ to the other.
+    However, it cannot do so by moving in a straight line; instead, it must go all the way around the ring, which one expects to take a longer time.
+    Indeed, in high dimension topological defects of this kind in $\mathsf{Sub}(u)$ can come in a great variety, and can force descent methods to seek out very convoluted optimization paths.
+    After describing some more basic quantities, we will return to how these topological properties may be assessed quantitatively.
+    However, understanding the nuances of how these more complicated defects affect dynamics is very much an open question, largely beyond current theoretical techniques.
+  </p>
+
+  <figure class="l-page fig-sublevel-sets" style="position: relative;">
+    <div class="slider" style="height: 300px; width: 40px; display: inline-block; margin-right: 40px;"></div>
+    <svg width="500" height="300" class="svg1"></svg>
+    <div id="fig-sublevel-sets-2" style="width: 400px; height: 400px; position: absolute; left: 600px; top: -65px;"></div>
+    <!--<svg width="500" height="300" class="svg2"></svg> -->
+    <figcaption style="padding-top: 20px;">
+      This is a simple model of a random function (a trigonometric polynomial with random Gaussian coefficients, a version of the random polynomials we will encounter later when we discuss spin glasses).
+      Try moving the slider up and down, and observe how the sub-level set (the regions in red on the right-hand side plot) change as the cutoff level changes.
+    </figcaption>
+  </figure>
+
+  <p>
+    <b>Counting critical points.</b>
+    Another type of landscape defect that can obstruct optimization, related to changes in sub-level set topology, is the following.
+    As is visible in the illustrations above, at the precise value of $u$ when $\mathsf{Sub}(u)$ undergoes a structural change, there is n associated point $\bm x$ with $f(\bm x) = u$ that is a <i>critical point</i> of $f$: it satisfies $\nabla f(\bm x) = \bm 0$, and whether it is a minimum, maximum, or saddle point depends on the eigenvalues of the Hessian $\nabla^2 f(\bm x)$.
+    </p>
+
+  <p>
+    The particular quantity of interest turns out to be the number of negative eigenvalues of the Hessian, which is called the <i>index</i> of a critical point. We will write this as $\mathsf{ind}(\bm x, f)$; roughly, the index tells us "how many directions" there are to descend further from $\bm x$ along the landscape of $f$ (out of a total of $N$ directions for $\bm x$ in an $N$-dimensional manifold).
+    If there are few such directions, then it will be hard for an optimization algorithm optimizing $f$ locally around $\bm x$ to find, out of nearly $N$ bad directions, the few good ones.
+  </p>
+
+  <p>
+    At the same time, we are also interested in how critical points are related to the <i>value</i> of $f$ that is achieved at them, because we want to know how close to the true optimum value of $f$ we will be by the time we get stuck at a critical point.
+    Combining all these ingredients, we want to measure something like this: how many critical points are there of $f$, of a certain index $k$, where the value of $f$ is at most $u$?
+    In notation, this is the following quantity:
+    \[ \mathsf{Crt}_k(f, u) = \#\{\bm x: \nabla f(\bm x) = \bm 0, \mathsf{ind}(\bm x, f) = k, f(\bm x) \leq u\}. \]
+    Therefore, we might be able to accomplish part of our task if we can perform a detailed study of the functions $\mathsf{Crt}_k(f, \bullet)$ for various $k$, in particular for small $k$, which correspond to the "bad" critical points described above.
+    This can be a powerful technique, collapsing the high-dimensional picture of $f$ into a collection of one-dimensional functions, which are far simpler to understand.
+  </p>
+
+  <p>
+    <b>Topological invariants in greater depth.</b>
+    In fact, beyond being useful for its own intuitive sake, counting critical points can help us to assess the topology of the sub-level sets.
+    For these purposes, we are interested in computing <i>topological invariants</i>, quantities which depend only upon the coarse structure of the sub-level set and would not change under continuous deformation (<i>homeomorphism</i>, in topological parlance).
+    These are quantities like numbers of connected components and numbers of holes, whose importance we emphasized before.
+    Actually, these quantities are unified in a concept called <i>homology</i>, which is rather abstract but, among other benefits, gives a unified description of the "hole" that separates two connected components of a set, the more colloquial hole in the center of a washer or a donut, and the space in the center of an unfilled sphere.
+
+    One classical topological invariant can be computed directly from the counts of critical points, assuming the function $f$ is a so-called <i>Morse function</i>, meaning at critical points its Hessian does not have eigenvalues equal to zero (so that the index is stably defined), a notion we will return to in greater detail later.
+    This is the <i>Euler characteristic</i>, which for sub-level sets may be computed as
+    \[ \chi(\mathsf{Sub}(f, u)) = \sum_k (-1)^k \mathsf{Crt}_k(f, u). \]
+    The meaning of the Euler characteristic is somewhat subtle (it is related to the well-known formula that for any convex three-dimensional polyhedron with $V$ vertices, $E$ edges, and $F$ faces we always have $V - E + F = 2$--this corresponds to the fact that $\chi(\mathbb{S}^2) = 2$, and the terms in this equation correspond to those above), but for the purposes of thinking about level sets, it suffices to know that it is additive under disjoint union and is positive for solid disks and their higher-dimensional analogs. (That the Euler characteristic's more typical definition matches the above is part of the content of <i>Morse's theorem</i>.)
+    Thus, typically a disjoint union of disks or balls (a very disconnected sub-level set) will have large positive Euler characteristic, and its complement (a very "holey" sub-level set, not as dire but likely still difficult to navigate) will have a large negative Euler characteristic.
+    Intuitively then, for landscape navigability, we would like the Euler characteristic not to be too positive or too negative, but to be some modestly small number in absolute value.
+  </p>
+
+  <p>
+    If this is not enough, quantities called the <i>Betti numbers</i>, corresponding to the "numbers of holes" of various dimensions as suggested above, may also be computed, albeit with greater difficulty.
+    (They are related to the functions $\mathsf{Crt}_k(f, \bullet)$ by some inequalities given in the rest of Morse's theorem.)
+    Moreover, the "lifespan" of a given hole or topological defect in a sub-level set as the parameter $u$ varies may be understood through a technique called <i>persistent homology</i>.
+    This gives a finer-grained description of the landscape than just the counts of critical points below each fixed level $u$, since it further tells us for how long, for instance, a domain around a local minimum is a disconnected component of the sub-level set, which corresponds to the size of that local minimum's basin of attraction.
+    The calculations of these quantities are even more formidable than what we will describe in detail here even for toy models, but the curious reader may consult <dt-cite key="ghrist2008barcodes"></dt-cite> for general information and <dt-cite key="adler2010persistent"></dt-cite> for further details in the context of Gaussian random fields, which include the spherical spin glasses we will discuss below.
+  </p>
+
+  <p>
+    <b>The prize: speed of dynamics.</b>
+    The question still remains, of course, of how to translate this information into control of the dynamics, what we were originally after.
+    That is not entirely clear from only what we have discussed above--certainly critical points, for instance, can "trap" a local optimizer, but whether they are likely to do so depends on the size of their basin of attraction.
+    As we mentioned before, that might be read off somehow from more detailed topological information.
+  </p>
+
+  <p>
+    However, for actual theoretical results, a more indirect approach is more tractable: if the dynamics one works with are random (like, at an intuitive level, a noisy gradient descent) and are guaranteed to eventually be distributed like a certain <i>equilibrium distribution</i> given enough time to equilibriate, then the same task may be carried out by studying how much weight this distribution gives to the vicinities of various local minima compared to the true minimum, and making arguments about the time to equilibrium.
+    That is often easier, except that such dynamics, a popular version of which drawn from physics is called the <i>Langevin dynamics</i>, do not quite correspond to even randomized gradient descent methods used in practice, like stochastic gradient descent.
+    Thus, at some practical cost, versions of stochastic gradient descent have been proposed that resemble Langevin dynamics; see e.g. <dt-cite key="raginsky2017non,nagapetyan2017true"></dt-cite>.
+    We will not dwell on this delicate issue, but only note that there are several potential techniques for making this connection, all of which require substantial effort to implement, and all of which admit many interesting open questions as to how they behave on the landscapes we will discuss.
+  </p>
+
+  <hr>
+
+  <h2>3. Spin Glasses: A Tractable Mathematical Model</h2>
+
+  <p>
+    With these ideas in hand, we turn to a model of a <i>random</i> optimization landscape originating in statistical physics, where some of the quantities discussed above may be computed explicitly with great precision.
+  </p>
+
+  <p>
+    <b>What is a spin glass?</b>
+    In the most pedestrian explanation stripped of all physical context, one may think of a spin glass as nothing but a <i>random polynomial</i>.
+    We consider a function of the form
+    \[ H_{N, p}(\bm\sigma) = \sum_{i_1, \dots, i_p = 1}^N J_{i_1\cdots i_p} \sigma_{i_1}\cdots\sigma_{i_p} \]
+    where, for convenience, $J_{i_1\cdots i_p}$ is non-zero only when all the indices are distinct (so that the polynomial is <i>homogeneous</i>).
+    To avoid any concerns about scaling, we restrict our attention to $\bm \sigma \in \mathbb{S}^{N - 1}$, i.e. to $\sum_{i = 1}^N \sigma_i^2 = 1$.
+  </p>
+
+  <p>
+    This would be fairly simple to optimize if the <i>coupling coefficients</i> $\bm J$ (an order $p$ tensor, mathematically speaking) were simple; for instance, if $J_{i_1\cdots i_p} = -1$ always, it is easy to check that the optimizing point would be to take $\sigma_i = N^{-1/2}$, so that $H_{N, p}(\bm \sigma) \sim -N^{p/2}$ at the global minimum.
+    What makes this case so simple is that all of the terms in the summation can be made to have the same sign.
+    Consider, in constrast, the case where $J_{i_1\cdots i_p}$ are taken to be random, say $J_{i_1 \cdots i_p} \sim \mathcal{N}(0, N^{-1})$ independently (this is the right normalization for the order of the global minimum to be constant as $N \to \infty$).
+    A phenomenon called <i>frustration</i> arises, where not all $p$-tuples $(\sigma_{i_1}, \dots, \sigma_{i_p})$ can be made to have the opposite sign of $J_{i_1 \cdots i_p}$.
+    Thus, different terms in the sum of $H_{N, p}$ and different entries of $\bm\sigma$ begin to "battle", creating a complex landscape over $\bm\sigma$.
+  </p>
+
+  <figure class="l-body fig-frustration" style="position: relative;">
+    <svg width="500" height="300" class="svg"></svg>
+    <div id="fig-sublevel-sets-2" style="width: 400px; height: 400px; position: absolute; left: 600px; top: -65px;"></div>
+    <figcaption style="padding-top: 20px;">
+      This is a simple model of frustration, even simpler than what is described in the text, based on the Sherrington-Kirkpatrick model of spin glasses.
+      Every pair of circles prefers randomly to either be of the same color or of different colors.
+      Because the preferences are random, it's very hard to find a configuration that makes many of the pairs happy.
+      Give it a try--click a circle to change its color, and try to make as many of the red edges go off as you can!
+      (There is definitely a way to make about half the edges "happy"--can you see how?)
+    </figcaption>
+  </figure>
+
+  <p>
+    The model we have just described is called the (Gaussian) spherical spin glass, and is one of several classical models of frustrated magnetic systems in statistical physics.
+    Without dwelling on the physical background, let us review the problem we have described: over $\bm \sigma$ with $\sum_{i = 1}^N \sigma_i^2 = 1$ (lying on the unit sphere), when $J_{i_1\cdots i_p} \sim \mathcal{N}(0, N^{-1})$ for distinct index sets, what is the complexity of the function $H_{N, p}(\bm \sigma)$?
+  </p>
+
+  <p>
+    The case $p = 2$ is relatively easy to analyze: in this case, $H_{N, 2}$ is simply a quadratic form, and can be written down in matrix algebra:
+    \[ H_{N, 2}(\bm\sigma) = \bm \sigma^\top \bm J \bm\sigma \]
+    where $\bm J$ is (except for its diagonal entries, which are negligible here) a symmetric random matrix with Gaussian entries.
+    But this problem turns out to be a familiar one--the problem of minimizing this quantity over $\bm \sigma \in \mathbb{S}^{N - 1}$ is exactly the problem of finding the smallest eigenvalue of $\bm J$!
+    Thus, the minimum will be achieved at $\pm \bm\sigma^*$, the eigenvector of $\bm J$ with smallest eigenvalue, and the value there will be $H_{N, 2}(\bm \sigma^*) = \lambda_{\min}(\bm J)$ , which is about $-2$ for large $N$ according to a standard result of random matrix theory <dt-cite key="anderson2010introduction"></dt-cite>.
+    Linear algebra in fact gives the whole picture: by the <i>min-max principle</i> (variously attributed to two or all three of Courant, Fischer, and Weyl), if $\lambda_1 \leq \cdots \leq \lambda_N$ are the eigenvalues of $\bm J$ and $\bm \sigma_1, \dots, \bm \sigma_N$ are the corresponding eigenvectors, then there are exactly two critical points of index $k$ for each $k = 0, \dots, N - 1$, which are exactly $\pm \bm \sigma_{k + 1}$.
+    </p>
+
+  <p>
+    Details aside, the key is that there are only $2N$ critical points.
+    Knowing this, one might expect that the number of critical points for $p \geq 3$ would also grow modestly with $N$.
+    In fact, this could not be farther from the truth: for every $p \geq 3$, there are <i>exponentially many</i> critical points.
+  </p>
+
+  <p>
+    <b>Rates of critical points.</b>
+    Indeed, in what is the great convenience of this model, at a certain scale the quantities $\mathsf{Crt}_k(H_{N, p}, u)$ may be understood quite precisely in the limit $N \to \infty$.
+    Let's unpack what these results do and don't say.
+    First, remember that these quantities are <i>random</i> here, since $H_{N, p}$ is itself random.
+    The simplest way to describe them is then to describe their expectations.
+    One of the major results of the work carried out in <dt-cite key="auffinger2013random,auffinger2013complexity"></dt-cite> gives precisely such a description, to so-called <i>leading exponential order</i>, meaning that when a quantity grows as $e^{cN}$, the asymptotic identifies the constant $c$ exactly, but makes no claims about more fine-grained fluctuations from this first-order behavior.
+    (Such statements are typical of the probabilistic theory of <i>large deviations</i>.)
+    The statement is as follows: for any fixed $k$,
+    \[ \lim_{N \to \infty} \frac{1}{N} \log \left( \mathbb{E} \left[\mathsf{Crt}_k(H_{N, p}, u) \right] \right) = \Theta_{k, p}(u), \]
+    for some $\Theta_{k, p}$, which, besides the novelty of its defining limit existing in the first place, has the more substantial charm of admitting a completely explicit formula.
+    For the reader unfamiliar with this type of asymptotic statement, the claim may be seen as packing in three rather distinct statements.
+    <ol>
+      <li>When $\Theta_{k, p}(u) < 0$, then the mean of $\mathsf{Crt}_{k}(H_{N, p}, u)$ decays to zero exponentially fast, whereby it may be argued (by a simple technique called the <i>first moment method</i>) that it is very unlikely to see any critical points of index $k$ in $\mathsf{Sub}(H_{N, p}, u)$ at all.
+      <li>When $\Theta_{k, p}(u) > 0$, then in a sense we expect to see exponentially many such critical points <i>on average</i>, and $\Theta_{k, p}(u)$ gives us a "rate" at which they should appear in this sub-level set.
+      <li>When $\Theta_{k, p}(u) = 0$, we learn that we are looking at the situation on the wrong scale: $\Theta_{k, p}$ is designed to measure average numbers of critical points on an exponential scale, but in this case the number is neither exponentially growing nor exponentially decaying.
+    It might, for instance, be constant, or grow only like a polynomial, or like $e^{cN^\alpha}$ for some $\alpha \in (0, 1)$.
+    In any case, analysis at this level of granularity is far more subtle, because such a value of $u$ represents a kind of <i>phase transition</i> in the landscape of $H_{N, p}$, where critical points of a given index go from being vanishingly rare to being exponentially common; general heuristics accumulated from experience with many systems of statistical physics suggest that at phase transitions very exceptional behaviors and geometric structures may arise.
+    </ol>
+  </p>
+
+  <figure class="l-page fig-rates" style="margin-top: -60px;">
+    <div style="clear: both;">
+      <div id="figRatesInner2" style="width: 500px; display: inline; float:left;">
+        <svg width="650" height="500">
+          <g transform="translate(50, 100)"></g>
+        </svg>
+      </div>
+      <div id="figRatesInner" style="display: inline; width: 400px; height: 600px; float: right;">
+      </div>
+    </div>
+    <figcaption style="margin-top: -20px; clear: both;">
+      This is an illustration of the complexity of the spherical spin glass with $p = 3$.
+      In the right panel, the rate functions $\Theta_{k, 3}$ are plotted for several values of $k$, with the corresponding energies $-E_k$ where critical points of index $k$ first appear indicated.
+      In the left panel, we give a schematic visualization of how the landscape may be thought to look: lighter colors correspond to critical points of higher index, and each index begins to appear at a different energy level.
+      The "floor" at $-E_\infty$, the limit of the $-E_k$, is where critical points of low index first begin to appear; thus, optimizing by descending from above into this picture, we expect to be blocked by the thicket of low-index critical points at the floor (above the floor, in the solid yellow region, only higher-index critical points appear in exponential number, so our optimizer still has a chance to weave among the critical points and make progress).
+      The global minimum or "ground state", in contrast, is buried further below in a region where there are only local minima.
+    </figcaption>
+  </figure>
+
+  <p>
+    <b>Hitting the floor.</b>
+    In the above illustrations, we see an important phenomenon--the critical points that resemble local minima, having a fixed index $k$ compared to the large value of $N$, only begin to appear in exponential number at a certain level, above called $-E_\infty$.
+    In <dt-cite key="sagun2014explorations"></dt-cite>, this is referred to as the <i>floor</i> for this problem, the quality of optimization which we expect is possible to achieve before low-index critical points become exponentially common, which we expect to stop any further progress.
+    The floor is separated from the true optimum, in physics called the <i>ground state</i>, which we denote $-E_0$, which coincides with the lowest level where there are asymptotically any critical points at all.
+    Thus, we expect "perfect optimization", all the way down to the absolute global minimum, to be impossible in this case.
+    As is noted in <dt-cite key="sagun2014explorations"></dt-cite>, empirical evidence suggests that this is a uniquely high-dimensional phenomenon; for modest values of $N$, stochastic gradient descent methods are able to optimize $H_N$ essentially all the way to global optimality.
+    That work also numerically confirms a natural hypothesis suggested by this observation, that essentially <i>all</i> runs of some descent-type method on such a function should attain the same value, which should approximately equal the floor.
+  </p>
+
+  <p>
+    <b>Wait! What about neural networks?</b>
+    Having emerged from this sea of details, the reader will do well to reflect on what we had hoped to learn from this exercise.
+    Remember that the landscape of the spherical spin glass was supposed to look something like the landscape of neural network parameters with the objective of minimizing some loss function.
+    Indeed, in <dt-cite key="choromanska2015loss"></dt-cite> it is shown that this is approximately the case under the very weak model where we are interested in estimating pure noise with a neural network taking as input further, independent pure noise, and make many other assumptions on symmetry in the network topology and neuron activation patterns.
+    This result is encouraging, but of course (as the authors themselves point out) somewhat unrealistic.
+    Maybe we really expect something more like a statistical learning scenario, where the data is drawn from a distribution that is well-modeled by some given neural network, and the optimization must learn these "true weights" from the data.
+  </p>
+
+  <p>
+    In the literature exploring this connection from the spin glass side, this leads to considering a family of models related to the <i>spiked tensor model</i>, where instead of optimizing against the coupling tensor $\bm J$ consisting of pure noise, we optimize against $\bm J + \lambda(\bm \sigma^*)^{ \otimes p }$, where $\lambda$ is a <i>signal-to-noise ratio</i>, and we expect this "spike" to push the optimizer closer and closer to $\bm \sigma^*$, a "planted" solution that we now hope to recover.
+    One may, with substantial difficulty and plenty of heuristic arguments developed in the physics literature <dt-cite key="ros2018complex"></dt-cite>, work through the same calculations for this model, and learn about how this deformation pushes the critical points of low index towards $\bm \sigma^*$.
+  </p>
+
+  <p>
+    On the other hand, from a more practical point of view, one would be justified in wondering whether the typical functions neural networks produce look anything at all like random polynomials in the first place.
+    Indeed, one distinguishing feature of such functions underlying this whole analysis is that random polynomials are <i>Morse functions</i>, meaning that at critical points their Hessians never have eigenvalues equal to zero.
+    Such eigenvalues correspond to directions from a critical point that are neither increasing nor decreasing, but rather <i>flat</i>.
+    And, wouldn't the reader know it, flat regions have been long explored as an exceptional property of neural network landscapes.
+    In fact, there has been much speculation as to whether the flatness of minima is related to favorable generalization properties, a debate which continues in the literature today, though this theory is arguably losing ground.
+    For further details, the reader may consult <dt-cite key="lecun1998efficient,sagun2016eigenvalues,dinh2017sharp"></dt-cite> and many other references.
+  </p>
+
+  <p>
+    We do not intend to get into the weeds of this debate here.
+    The more salient point for us is that the spin glass model does not even acknowledge that this debate exists!
+    The same is the case for a number of particular properties of neural network landscapes that are not shared by general "rugged landscape" models like those mentioned earlier.
+    We therefore go back to square one, and consider how we might build a more faithful, but still tractable landscape model.
+  </p>
+
+  <hr>
+
+  <h2>4. Neural Networks: The Simple Cases</h2>
+
+  <p>
+    The story of studying neural network optimization by analogy with spin glass dynamics having ended on an uncertain note in the previous section, the reader would not be blamed for wanting for some firmer ground to stand on.
+    Instead of an analogy between complex neural network landscapes and other, tenuously related complex landscapes, we may do better to study the cases where neural network landscapes are <i>simple</i>.
+    Then, for example, we might look at how the various kind circumstances making these landscapes simple break down in more complicated settings.
+  </p>
+
+  <p>
+    To understand when we might expect this simplification to happen, we should reflect on the basics of deep learning.
+    There are basically two essential features of even the simplest deep neural networks, which are (1) depth, the presence of many layers, each of which must involve (2) nonlinearity.
+    To reduce the complexity of these models, we might consider removing either of these properties, and analyzing what is left.
+    This yields, on the one hand, the rather unusual object that is a "deep linear model", and on the other hand the more familiar object, indeed the style in which neural networks were first developed, the shallow network.
+  </p>
+
+  <p>
+    <b>Deep linear models: lipstick on the pig.</b>
+    The first simplified model of deep learning, that without non-linearities, is just a model that is an iterated matrix multiplication: we would like to learn $\bm W_1, \dots, \bm W_d$ of suitably compatible fixed dimensions such as to minimize an expected loss, which we take to be quadratic, giving an objective function
+    \[ f(\bm W_1, \dots, \bm W_d) = \mathbb{E}\left[ \|\bm W_d\bm W_{d - 1} \cdots \bm W_1 \bm X - \bm Y\|^2 \right]. \]
+    At the level of the function $\bm X \mapsto \bm W_d\bm W_{d - 1} \cdots \bm W_1 \bm X$, this is really no more than a re-expression of attempting to fit $\bm W \bm X = \bm Y$ subject to a rank constraint on $\bm W$, corresponding to the "rank bottleneck" in the sequence of dimensionalities of $\bm W_i$, the lowest intermediate dimension that occurs among all of the matrices.
+    However, the structure of the <i>landscape</i> of such a model is less clear.
+  </p>
+
+  <p>
+    Indeed, the situation is surprisingly subtle.
+    The picture, part of which was conjectured in <dt-cite key="baldi1989neural"></dt-cite> and which was proven in various degrees of generality in <dt-cite key="kawaguchi2016deep,freeman2016topology,venturi2018neural"></dt-cite>, is as follows (various entries in this list holding under various fairly weak conditions on the shapes and ranks of $\bm X$ and $\bm Y$, which we will not delve into here):
+    <ol>
+      <li>When all but one of the $\bm W_i$ are fixed, $f$ is convex in the remaining matrix.
+      <li>Yet, $f$ itself is neither convex nor concave.
+      <li>Nonetheless, every local minimum is also a global minimum.
+      <li>Moreover, the sub-level sets of $f$ are always connected.
+      <li>There exist degenerate saddle points where the Hessian has no negative eigenvalues (so that there are no descent directions to second order) only if $d \geq 3$.
+    </ol>
+  </p>
+  <p>
+    This is mixed news--on the one hand, the worst possible situation of many local minima, which plagued us in the spin glass model, is guaranteed not to occur in these models.
+    On the other hand, the second-worst possible situation of degenerate saddle points is guaranteed to occur here, so long as we are not in the doubly simplified situation of a model that is both shallow and linear.
+    It is instructive to observe when this occurs--it is precisely when the "inner" matrix, $\bm W_{d - 1} \cdots \bm W_2$, becomes degenerate, having lower rank than the bottleneck rank described above.
+    This is in some sense a very small subset of the parameter space--its codimension is one, meaning that geometrically its "thickness" is the same as that of a hyperplane.
+    Thus, while this caveat is less than ideal, we can comfortably focus on the good news, the absence of local minima due to the "good" topology of sub-level sets.
+  </p>
+
+  <p>
+    <b>Towards a realistic picture: shallow networks.</b>
+    The natural next step is to ask, to what extent can we re-introduce nonlinearity into our model while retaining these favorable properties?
+    This is an exciting and rapidly growing field, which has been developed in parallel to the "mean-field" style of analysis of <dt-cite key="choromanska2015loss"></dt-cite> that attempted to reduce nonlinear deep networks to spin glass-like polynomial expressions.
+    Recall that, though that model let us get a very precise picture of the landscape, the manipulations required to get to the spin glass formulation in the first place were not as realistic as we would like.
+    In the present line of work, we give up the depth of the network, but in return are able to faithfully understand genuine neural networks.
+  </p>
+
+  <p>
+    The structure of the model is as follows: we fix a non-linearity $\rho$, and take as our family of models the functions $\bm X \mapsto \bm W_2 \rho(\bm W_1 \bm X)$, where $\rho$ is applied elementwise.
+    The objective function is then
+    \[ f(\bm W_1, \bm W_2) = \mathbb{E}\left[ \|\bm W_2 \rho(\bm W_1 \bm X) - \bm Y\|^2 \right]. \]
+    The key idea of the quite general result of <dt-cite key="venturi2018neural"></dt-cite> is to realize that, though the output of the first layer is nonlinear, sometimes it is only manageably so.
+    Every entry of the output of the first layer is an expression of the form $\rho(\bm w^\top \bm x)$, where $\bm w$ is some row of $\bm W_1$ and $\bm x$ is some column of $\bm X$.
+    One then considers the family of all such functions, those that can be written $\psi_{\bm w}(\bm x) = \rho(\bm w^\top \bm x)$ for some $\bm w$.
+  </p>
+
+  <p>
+    The essential insight is that if this family of functions is finite-dimensional (as, for instance, will be the case for polynomials and other functions with a graded algebraic structure), then the nonlinearity may be "separated" into a nonlinearity applied to $\bm X$ and $\bm W_1$ individually.
+    That is, there will exist maps $\alpha$ and $\beta$ (taking matrices to matrices nonlinearly) so that
+    \[ \rho(\bm W_1 \bm X) = \alpha(\bm W_1)\beta(\bm X). \]
+    Now, intuitively, we are in the clear--this is merely the linear situation again, so long as the map $\alpha$ has sufficiently large image, so that the output $\alpha(\bm W_1)$ may be "steered" wherever it must go by appropriately choosing $\bm W_1$, letting us recreate the argument from the linear case.
+    This requires a certain degree of <i>overparametrization</i>; that is, of freedom to control the model function by adjusting the parameter matrices $\bm W_i$.
+  </p>
+
+  <p>
+    <b>The new player: overparametrization.</b>
+    In fact, to a large degree overparametrization is the key to the entire story of the ease of optimizing shallow neural networks.
+    This is easiest to see in the linear case: the idea behind the proofs of the results mentioned above is that, if there are far more parameters than the number of degrees of freedom in the "actual" matrix $\bm W_d \cdots \bm W_1$ being obtained, then, up to obstructions imposed by rank and non-degeneracy constraints, any given one of the matrices $\bm W_i$ may be arbitrarily adjusted with a compensation in the other matrices $\bm W_j$ with $j \neq i$ without affecting the actual model.
+    Thus, there is plenty of freedom to traverse the parameter space without changing the model at all.
+    Moreover, the objective function is convex in each individual matrix $\bm W_i$ so long as the others are fixed, so certain adjustments of one matrix without changing the others can be guaranteed to be favorable.
+    The results on deep linear models above proceed simply by combining these two observations in the right order.
+  </p>
+
+  <p>
+    The surprise, then, is that this reasoning may be pushed through to reasonable classes of nonlinearities, by reduction to the linear case.
+    (The same observation has been confirmed in various other frameworks with various more or less specific nonlinearities; for instance, a more statistical flavor of result is given by <dt-cite key="soltanolkotabi2017theoretical"></dt-cite> under more assumptions.)
+    Of course, the larger prize remains for the taking--in the presence of an "honest" nonlinearity, one that may not be "linearized away" by the technique described before, what is the complexity of the landscape?
+    If the landscape is simple, what is the extra theoretical insight needed to analyze that more difficult situation?
+    If the landscape is more complex, how can its complexity be assessed, and under what circumstances do we obtain something like the picture that spin glass theory promised?
+  </p>
+
+  <hr>
+
+  <h2>5. Conclusion</h2>
+
+  <p>
+    <b>Where does that leave us?</b>
+    We have seen two quite different families of simplified models of neural network landscapes, both of which predicted rather different phenomena, which are sometimes confirmed and sometimes refuted in the deluge of experimental literature on deep learning.
+    Certainly, neither of these toy models is entirely satisfactory in representing even the qualitative behavior of neural network optimization.
+    Nor are the models even fully understood, the study of complexity of shallow networks being in its early stages and that of complexity of spin glasses being older yet very technically challenging.
+  </p>
+
+  <p>
+    What we have gained from these investigations, rather, is a set of simple ideas for thinking about the difficulty of optimization: on the one hand, the curses of topological landscape complexity, frustration in random optimization problems, and hard "floors" for optimization quality; on the other hand, the gifts of overparametrization, tractability of shallow networks, and manageable nonlinearities.
+    The most important next steps, we propose, will be to identify how these phenomena appear in more complex models, or perhaps even in real-world neural networks--certainly both are present in some measure in most tasks, but it is entirely unclear how to decide which effect should dominate.
+    We urge the reader to wonder if, eventually, the zoo of design techniques that have been developed for engineering practical neural networks can be understood at this more principled level, systematizing the great deal of knowledge that has been generated by the applied community.
+    Our parting question, though, is even more optimistic: might, we wonder, the situation eventually be flipped around, the understanding of such toy models as we have discussed suggesting how to engineer networks that avoid difficult landscapes?
+  </p>
+</dt-article>
+
+<dt-appendix>
+</dt-appendix>
+
+<script type="text/bibliography">
+  @inproceedings{choromanska2015loss,
+  title={The loss surfaces of multilayer networks},
+  author={Choromanska, Anna and Henaff, Mikael and Mathieu, Michael and Arous, G{\'e}rard Ben and LeCun, Yann},
+  booktitle={Artificial Intelligence and Statistics},
+  pages={192--204},
+  year={2015}
+  }
+
+  @article{sagun2014explorations,
+  title={Explorations on high dimensional landscapes},
+  author={Sagun, Levent and Guney, V Ugur and Arous, Gerard Ben and LeCun, Yann},
+  journal={arXiv preprint arXiv:1412.6615},
+  year={2014}
+  }
+
+  @article{ros2018complex,
+  title={Complex energy landscapes in spiked-tensor and simple glassy models: ruggedness, arrangements of local minima and phase transitions},
+  author={Ros, Valentina and Arous, Gerard Ben and Biroli, Giulio and Cammarota, Chiara},
+  journal={arXiv preprint arXiv:1804.02686},
+  year={2018}
+  }
+
+  @article{baldi1989neural,
+  title={Neural networks and principal component analysis: Learning from examples without local minima},
+  author={Baldi, Pierre and Hornik, Kurt},
+  journal={Neural networks},
+  volume={2},
+  number={1},
+  pages={53--58},
+  year={1989},
+  publisher={Elsevier}
+  }
+
+  @inproceedings{kawaguchi2016deep,
+  title={Deep learning without poor local minima},
+  author={Kawaguchi, Kenji},
+  booktitle={Advances in Neural Information Processing Systems},
+  pages={586--594},
+  year={2016}
+  }
+
+  @article{freeman2016topology,
+  title={Topology and geometry of half-rectified network optimization},
+  author={Freeman, C Daniel and Bruna, Joan},
+  journal={arXiv preprint arXiv:1611.01540},
+  year={2016}
+  }
+
+  @article{venturi2018neural,
+  title={Neural Networks with Finite Intrinsic Dimension have no Spurious Valleys},
+  author={Venturi, Luca and Bandeira, Afonso and Bruna, Joan},
+  journal={arXiv preprint arXiv:1802.06384},
+  year={2018}
+  }
+
+  @misc{anderson2010introduction,
+  title={An introduction to random matrices, volume 118 of Cambridge Studies in Advanced Mathematics},
+  author={Anderson, Greg W and Guionnet, Alice and Zeitouni, Ofer},
+  year={2010},
+  publisher={Cambridge University Press, Cambridge New York}
+  }
+
+  @article{auffinger2013random,
+  title={Random matrices and complexity of spin glasses},
+  author={Auffinger, Antonio and Arous, G{\'e}rard Ben and {\v{C}}ern{\`y}, Ji{\v{r}}{\'\i}},
+  journal={Communications on Pure and Applied Mathematics},
+  volume={66},
+  number={2},
+  pages={165--201},
+  year={2013},
+  publisher={Wiley Online Library}
+  }
+
+  @article{auffinger2013complexity,
+  title={Complexity of random smooth functions on the high-dimensional sphere},
+  author={Auffinger, Antonio and Arous, Gerard Ben and others},
+  journal={The Annals of Probability},
+  volume={41},
+  number={6},
+  pages={4214--4247},
+  year={2013},
+  publisher={Institute of Mathematical Statistics}
+  }
+
+  @book{wright1932roles,
+  title={The roles of mutation, inbreeding, crossbreeding, and selection in evolution},
+  author={Wright, Sewall},
+  volume={1},
+  number={8},
+  year={1932},
+  publisher={na}
+  }
+
+  @article{kauffman1989nk,
+  title={The NK model of rugged fitness landscapes and its application to maturation of the immune response},
+  author={Kauffman, Stuart A and Weinberger, Edward D},
+  journal={Journal of theoretical biology},
+  volume={141},
+  number={2},
+  pages={211--245},
+  year={1989},
+  publisher={Elsevier}
+  }
+
+@article{huynen1996smoothness,
+  title={Smoothness within ruggedness: the role of neutrality in adaptation},
+  author={Huynen, Martijn A and Stadler, Peter F and Fontana, Walter},
+  journal={Proceedings of the National Academy of Sciences},
+  volume={93},
+  number={1},
+  pages={397--401},
+  year={1996},
+  publisher={National Acad Sciences}
+}
+
+  @inproceedings{barnett1998ruggedness,
+  title={Ruggedness and neutrality-the NKp family of fitness landscapes},
+  author={Barnett, Lionel},
+  booktitle={Artificial Life VI: Proceedings of the sixth international conference on Artificial life},
+  pages={18--27},
+  year={1998}
+  }
+
+@article{szendro2013quantitative,
+  title={Quantitative analyses of empirical fitness landscapes},
+  author={Szendro, Ivan G and Schenk, Martijn F and Franke, Jasper and Krug, Joachim and De Visser, J Arjan GM},
+  journal={Journal of Statistical Mechanics: Theory and Experiment},
+  volume={2013},
+  number={01},
+  pages={P01005},
+  year={2013},
+  publisher={IOP Publishing}
+}
+
+@article{poelwijk2007empirical,
+  title={Empirical fitness landscapes reveal accessible evolutionary paths},
+  author={Poelwijk, Frank J and Kiviet, Daniel J and Weinreich, Daniel M and Tans, Sander J},
+  journal={Nature},
+  volume={445},
+  number={7126},
+  pages={383},
+  year={2007},
+  publisher={Nature Publishing Group}
+}
+
+@article{ghrist2008barcodes,
+  title={Barcodes: the persistent topology of data},
+  author={Ghrist, Robert},
+  journal={Bulletin of the American Mathematical Society},
+  volume={45},
+  number={1},
+  pages={61--75},
+  year={2008}
+}
+
+@incollection{adler2010persistent,
+  title={Persistent homology for random fields and complexes},
+  author={Adler, Robert J and Bobrowski, Omer and Borman, Matthew S and Subag, Eliran and Weinberger, Shmuel and others},
+  booktitle={Borrowing strength: theory powering applications--a Festschrift for Lawrence D. Brown},
+  pages={124--143},
+  year={2010},
+  publisher={Institute of Mathematical Statistics}
+}
+@article{raginsky2017non,
+  title={Non-convex learning via Stochastic Gradient Langevin Dynamics: a nonasymptotic analysis},
+  author={Raginsky, Maxim and Rakhlin, Alexander and Telgarsky, Matus},
+  journal={arXiv preprint arXiv:1702.03849},
+  year={2017}
+}
+@article{nagapetyan2017true,
+  title={The true cost of stochastic gradient Langevin dynamics},
+  author={Nagapetyan, Tigran and Duncan, Andrew B and Hasenclever, Leonard and Vollmer, Sebastian J and Szpruch, Lukasz and Zygalakis, Konstantinos},
+  journal={arXiv preprint arXiv:1706.02692},
+  year={2017}
+}
+@article{sagun2016eigenvalues,
+  title={Eigenvalues of the Hessian in Deep Learning: Singularity and Beyond},
+  author={Sagun, Levent and Bottou, L{\'e}on and LeCun, Yann},
+  journal={arXiv preprint arXiv:1611.07476},
+  year={2016}
+}
+@incollection{lecun1998efficient,
+  title={Efficient backprop},
+  author={LeCun, Yann and Bottou, L{\'e}on and Orr, Genevieve B and M{\"u}ller, Klaus-Robert},
+  booktitle={Neural networks: Tricks of the trade},
+  pages={9--50},
+  year={1998},
+  publisher={Springer}
+  }
+  @article{dinh2017sharp,
+  title={Sharp minima can generalize for deep nets},
+  author={Dinh, Laurent and Pascanu, Razvan and Bengio, Samy and Bengio, Yoshua},
+  journal={arXiv preprint arXiv:1703.04933},
+  year={2017}
+}
+@article{soltanolkotabi2017theoretical,
+  title={Theoretical insights into the optimization landscape of over-parameterized shallow neural networks},
+  author={Soltanolkotabi, Mahdi and Javanmard, Adel and Lee, Jason D},
+  journal={arXiv preprint arXiv:1707.04926},
+  year={2017}
+}
+</script>
+
+<script src="js/fig_sublevel_sets.js"></script>
+<script src="js/fig_frustration.js"></script>
+<script src="js/fig_rate_functions.js"></script>

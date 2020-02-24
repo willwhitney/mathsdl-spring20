@@ -49,6 +49,11 @@ The course will be graded in three components: paper abstract, final paper, and 
 
 The paper will be written in groups which should be roughly evenly divided around 12 topics (groups of 3-4). You can sign up with your group on [this spreadsheet](https://docs.google.com/spreadsheets/d/15XlvR-eXNTncQh9hyOWOduEw_45mOOsem-zH31wbkdU/edit?usp=sharing_eil&invite=CPzMrKcN&ts=5e2f3a27). There should be no more than one paper per topic. [Here is an example](assets/example_paper) of a high-quality paper from a previous year.
 
+#### Paper proposal / abstract
+
+The proposal should be two pages. The first page should include a description of the topic area and an outline of the major directions you will cover.
+The second page should consist of a list of at least 10 papers which you will include in your review.
+It is due by 10 PM on 3/5  by submission to [NYU classes](https://newclasses.nyu.edu/portal/site/088123d4-f476-4f00-9382-f27d02b1502c/).
 
 
 ## Lectures

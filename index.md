@@ -79,7 +79,7 @@ It is due by 10 PM on 3/5  by submission to [NYU classes](https://newclasses.nyu
 
 ## Main References
 
-- The Scattering Transform
+- [The Scattering Transform](assets/documents/ScatteringTransform.pdf)
 - Geometric Deep Learning: going beyond Euclidean Data.
 - [Understanding Machine Learning: from Theory to Algorithms](https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf)
 - Breaking the Curse of Dimensionality with Convex Neural Networks, Bach.

@@ -40,8 +40,8 @@ the relevant references if you want to learn more.
 -   [Exploration by Random Network
     Distillation](https://arxiv.org/abs/1810.12894)
 
--   [Curiosity-driven Exploration by Self-supervised
-    Prediction](https://pathak22.github.io/noreward-rl/resources/icml17.pdf)
+-   [#Exploration: A Study of Count-Based Exploration
+for Deep Reinforcement Learning](https://arxiv.org/abs/1611.04717)
 
 -   [Deep Exploration via Bootstrapped
     DQN](https://arxiv.org/abs/1602.04621)

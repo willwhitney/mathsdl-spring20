@@ -3,14 +3,13 @@ layout: page
 title: Home
 ---
 
-<!-- # MathsDL-spring18 -->
 Topics course Mathematics of Deep Learning, NYU, Spring 2020. CSCI-GA 3033.
 
 ## Logistics
 
-* Thursdays from 5.10pm-7pm in CIWW 201
+* Thursdays from 5.10pm-7pm <s>in CIWW 201</s> on Zoom: [https://nyu.zoom.us/j/528868904](https://nyu.zoom.us/j/528868904)
 
-* (**optional**) Parallel Curriculum sessions: Fridays 11am-12:15pm in CIWW 102.
+* (**optional**) Parallel Curriculum sessions: Fridays 11am-12:15pm <s>in CIWW 102</s> on Zoom: [https://nyu.zoom.us/j/724449246](https://nyu.zoom.us/j/724449246)
 
 * Campuswire (forum): [sign up here](https://campuswire.com/p/G3EE2F76E) and use code 5548
 

@@ -61,3 +61,8 @@ trajectory optimization and how LQR solves it for linear systems.
     on a nonlinear system?
 
 -   Is there a way to adapt LQR to more complex dynamics?
+
+
+#### References from class
+
+- [Autonomous Helicopter Aerobatics through Apprenticeship Learning](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.894.5921&rep=rep1&type=pdf) by Pieter Abbeel, Adam Coates, and Andrew Ng

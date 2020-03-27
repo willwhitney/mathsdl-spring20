@@ -56,3 +56,11 @@ solves nonlinear trajectory optimization problems.
 
 -   How computationally expensive are these trajectory optimization
     methods?
+
+#### References from the session
+
+- [Iterative Linearized Control: Stable Algorithms and Complexity Guarantees](http://proceedings.mlr.press/v97/roulet19a/roulet19a.pdf)
+
+- A representative paper doing trajectory optimization in a learned model: [Deep Reinforcement Learning in a Handful of Trials using Probabilistic Dynamics Models](https://arxiv.org/abs/1805.12114)
+
+- The MuZero paper: [Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model](https://arxiv.org/abs/1911.08265)

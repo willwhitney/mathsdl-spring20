@@ -18,7 +18,7 @@ constrained optimization and the specific technique, ADMM, used by GPS.
 
 -   Constrained optimization
 
--   Alternating Direction Method of Moments (ADMM)
+-   Alternating Direction Method of Multipliers (ADMM)
 
 #### Required reading
 

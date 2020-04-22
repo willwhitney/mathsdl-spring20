@@ -54,6 +54,17 @@ The proposal should be two pages. The first page should include a description of
 The second page should consist of a list of at least 10 papers which you will include in your review.
 It is due by 10 PM on 3/5  by submission to [NYU classes](https://newclasses.nyu.edu/portal/site/088123d4-f476-4f00-9382-f27d02b1502c/).
 
+#### Final paper format
+
+The final survey paper should be around 10-15 pages long.
+The format is fairly loose, but we recommend either using LaTeX in the [JMLR style](https://github.com/JmlrOrg/jmlr-style-file) or creating a web page in the [Distill format](https://distill.pub/guide/). Distill is particularly nice if you would like to embed interactive visualizations.
+
+Good papers will form a coherent story and make connections to unify the work on a certain topic; poor papers will list the work on a topic without a unifying view or central thesis.
+Covering a smaller area beautifully will be more successful than a superficial view of a larger topic.
+We encourage you to explain and clarify the work in your subject area, but you do not need to do original theory or experiments (unless you find them pedagogically convenient).
+There is no need to explain background techniques which are not the subject of your paper, but make sure to precisely define notation and cite appropriately.
+Please refer back to the [example paper](assets/example_paper) for guidance on style and the level of depth that we're looking for!
+
 
 ## Lectures
 

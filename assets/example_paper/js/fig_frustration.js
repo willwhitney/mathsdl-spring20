@@ -1,7 +1,6 @@
 (function() {
 
-  var svg = d3
-      .select('.fig-frustration svg');
+  var svg = d3.select('.fig-frustration svg');
 
   var n = 15;
   var nodes = new Array(n);
